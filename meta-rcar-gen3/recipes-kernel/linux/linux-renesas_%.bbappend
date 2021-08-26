@@ -1,10 +1,15 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
+SUPPORT_LTTNG = " \
+    file://lttng.cfg \
+"
+
 SRC_URI_append_ulcb = " \
     file://can.cfg \
     file://nvme.cfg \
     file://0001-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
     file://0002-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
+    ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 
 KERNEL_DEVICETREE_append_h3ulcb = " \
