@@ -418,7 +418,7 @@ REPRODUCIBLE_TIMESTAMP_ROOTFS = "${@time.strftime('%s', time.localtime())}"
 
 # Additionale development tools
 EXTRA_IMAGE_FEATURES_append = " ssh-server-openssh"
-IMAGE_INSTALL_append = " vim nano e2fsprogs-mke2fs"
+IMAGE_INSTALL_append = " vim nano e2fsprogs-mke2fs nfs-utils"
 IMAGE_INSTALL_append = " cmake nodejs python3 python3-pip git"
 
 # Additional profiling tools
