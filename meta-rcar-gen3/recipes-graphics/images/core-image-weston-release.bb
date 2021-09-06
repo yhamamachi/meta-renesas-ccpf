@@ -7,6 +7,8 @@ ROOTFS_POSTPROCESS_COMMAND_append = " remove_gfx_mmp_files ; "
 
 WKS_FILE="rcar-dualpart-noloader.wks"
 
+IMAGE_INSTALL_append = " gfx-mmp-auto-installer"
+
 remove_gfx_mmp_files() {
     find ${BASE_WORKDIR}/${MACHINE}-poky-linux/gles-user-module/1.0-r0/image -type f \
         | awk -F/ '{print $NF}' \
