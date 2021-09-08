@@ -25,8 +25,10 @@ SRC_URI_append = " \
     file://0001-Change-to-use-AArch64-flash-writer.patch \
 "
 
-# do_compile() nothing
-do_compile[noexec] = "1"
+do_compile() {
+    cd ${B}/starterkit
+    oe_runmake loop_yocto
+}
 
 # do_install() nothing
 do_install[noexec] = "1"
