@@ -14,6 +14,8 @@ IMAGE_INSTALL_append = " kernel-devicetree"
 
 IMAGE_INSTALL_append = " renesas-bsp-rom-writer"
 
+IMAGE_INSTALL_append = " flash-writer"
+
 remove_gfx_mmp_files() {
     find ${BASE_WORKDIR}/${MACHINE}-poky-linux/gles-user-module/1.0-r0/image -type f \
         | awk -F/ '{print $NF}' \
@@ -75,5 +77,9 @@ do_create_release_package() {
     # Copy renesas-bsp-rom-writer
     cp -rf ${DEPLOY_DIR_IMAGE}/renesas-bsp-rom-writer \
         -t ${BINARY_DIR}/ipl
+
+    # Copy flash-writer to renesas-bsp-rom-writer
+    cp -f ${DEPLOY_DIR_IMAGE}/AArch64_Flash_writer_SCIF_DUMMY_CERT_E6300400_ULCB.mot \
+        -t ${BINARY_DIR}/ipl/renesas-bsp-rom-writer/starterkit/
 }
 
