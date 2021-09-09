@@ -1,0 +1,113 @@
+From fb0cb901eafea4aee62263e0cb31e5853c2d6943 Mon Sep 17 00:00:00 2001
+From: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+Date: Wed, 21 Jul 2021 16:06:59 +0900
+Subject: [PATCH 3/4] soc: renesas: rcar_s2ram: Add new support for S2RAM exec
+ function
+
+Signed-off-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
+---
+ drivers/soc/renesas/Makefile     |  1 +
+ drivers/soc/renesas/rcar_s2ram.c | 82 ++++++++++++++++++++++++++++++++
+ 2 files changed, 83 insertions(+)
+ create mode 100644 drivers/soc/renesas/rcar_s2ram.c
+
+diff --git a/drivers/soc/renesas/Makefile b/drivers/soc/renesas/Makefile
+index 5080afb9d252..0cf51a991e12 100644
+--- a/drivers/soc/renesas/Makefile
++++ b/drivers/soc/renesas/Makefile
+@@ -40,3 +40,4 @@ obj-$(CONFIG_RCAR_CPU_TOPOLOGY)	+= rcar-topology.o
+ 
+ # EMS for R-Car Gen3
+ obj-$(CONFIG_RCAR_THERMAL_EMS)	+= rcar_ems_ctrl.o
++obj-y 				+= rcar_s2ram.o
+diff --git a/drivers/soc/renesas/rcar_s2ram.c b/drivers/soc/renesas/rcar_s2ram.c
+new file mode 100644
+index 000000000000..bb97041e9dae
+--- /dev/null
++++ b/drivers/soc/renesas/rcar_s2ram.c
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas R-Car S2RAM exec driver
++ *
++ * Copyright (C) 2021 renesas Electronics Corp.
++ */
++
++#include <linux/gpio/consumer.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/suspend.h>
++#include <linux/workqueue.h>
++
++struct rcar_s2ram_priv {
++	struct gpio_desc *gpiod;
++	struct work_struct s2ram_wq;
++};
++
++static void rcar_s2ram_work(struct work_struct *work)
++{
++	int ret;
++
++	ret = pm_suspend(PM_SUSPEND_MEM);
++
++	if (ret)
++		pr_err("Failed to exec S2RAM command, error code:%d\n", ret);
++}
++
++static irqreturn_t rcar_s2ram_handler(int irq, void *dev_id)
++{
++	struct rcar_s2ram_priv *priv = dev_id;
++
++	schedule_work(&priv->s2ram_wq);
++
++	return IRQ_HANDLED;
++}
++
++static int rcar_s2ram_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct rcar_s2ram_priv *priv;
++	int ret = 0;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, priv);
++
++	priv->gpiod = devm_gpiod_get(dev, NULL, GPIOD_ASIS);
++	if (IS_ERR(priv->gpiod))
++		return PTR_ERR(priv->gpiod);
++
++	INIT_WORK(&priv->s2ram_wq, rcar_s2ram_work);
++
++	ret = devm_request_irq(dev, gpiod_to_irq(priv->gpiod), rcar_s2ram_handler,
++			       IRQF_TRIGGER_RISING, dev_name(&pdev->dev), priv);
++	if (ret < 0)
++		pr_err("request irq failed for S2RAM, error code:%d\n", ret);
++
++	pr_info("rcar s2ram driver probed.\n");
++
++	return ret;
++}
++
++static const struct of_device_id rcar_s2ram_dt_ids[] = {
++        { .compatible = "renesas,ccpf-sk", },
++        { }
++};
++MODULE_DEVICE_TABLE(of, rcar_s2ram_dt_ids);
++
++static struct platform_driver rcar_s2ram_driver = {
++	.driver = {
++		.name		= "rcar-s2ram",
++		.of_match_table = rcar_s2ram_dt_ids,
++	},
++	.probe	= rcar_s2ram_probe,
++};
++
++module_platform_driver(rcar_s2ram_driver);
+-- 
+2.25.1
+
