@@ -11,6 +11,7 @@ SRC_URI_append_ulcb = " \
     file://0002-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
     file://0003-soc-renesas-rcar_s2ram-Add-new-support-for-S2RAM-exe.patch \
     file://0004-arm64-dts-renesas-Add-ext-interrupt-for-s2ram.patch \
+    file://0005-can-rcar_can-Fix-suspend-resume.patch \
     ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 
