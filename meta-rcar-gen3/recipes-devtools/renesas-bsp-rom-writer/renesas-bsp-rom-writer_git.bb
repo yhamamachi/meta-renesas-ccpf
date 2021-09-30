@@ -22,7 +22,10 @@ ALLOW_EMPTY_${PN}-dev = "1"
 ALLOW_EMPTY_${PN}-staticdev = "1"
 
 SRC_URI_append = " \
-    file://0001-Change-to-use-AArch64-flash-writer.patch \
+    file://0001-starterkit-linux-rom-writer-Fix-expect-becomes-timeo.patch \
+    file://0002-starterkit-linux-rom-writer-Improve-userbility.patch \
+    file://0003-starterkit-linux-rom-writer-add-speed_up-support.patch \
+    file://0004-Change-to-use-AArch64-flash-writer.patch \
 "
 
 do_compile() {

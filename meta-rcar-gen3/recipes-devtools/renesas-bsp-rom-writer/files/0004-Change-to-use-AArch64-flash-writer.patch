@@ -1,7 +1,7 @@
-From c884a6f6f725ce7c2bc2b86f2aca9d648a4dbacb Mon Sep 17 00:00:00 2001
+From 20785235912f8b5c46e0d9c0026b0fded50be474 Mon Sep 17 00:00:00 2001
 From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 Date: Mon, 13 Sep 2021 13:41:34 +0900
-Subject: [PATCH] Change to use AArch64 flash-writer
+Subject: [PATCH 4/4] Change to use AArch64 flash-writer
 
 Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 ---
@@ -10,10 +10,10 @@ Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/starterkit/linux/rom_writer b/starterkit/linux/rom_writer
-index 44a231f..8a33427 100755
+index 50d8989..1572059 100755
 --- a/starterkit/linux/rom_writer
 +++ b/starterkit/linux/rom_writer
-@@ -130,7 +130,7 @@ proc file_check {lists} {
+@@ -129,7 +129,7 @@ proc file_check {lists} {
  
  proc mot {} {
      global top
@@ -22,7 +22,7 @@ index 44a231f..8a33427 100755
  }
  
  proc mot_check {} {
-@@ -148,7 +148,7 @@ proc cpld_mode {} {
+@@ -147,7 +147,7 @@ proc cpld_mode {} {
  
      send "\r"
      expect {
