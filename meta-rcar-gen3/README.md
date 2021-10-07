@@ -22,19 +22,25 @@ This layer depends on:
 
 ## Patches
 
-Please submit any patches against the meta-renesas-ccpf/meta-rcar-gen3 layer to the the maintainer:
+Please submit any patches against the meta-renesas-ccpf/meta-rcar-gen3 layer to the the maintainers:
 
-Maintainer: Tomohiro Komagata <tomohiro.komagata.aj at renesas.com>
+* Maintainer: Tomohiro Komagata <tomohiro.komagata.aj at renesas.com>
+* Maintainer: Yuya Hamamachi <yuya.hamamachi.sx at renesas.com>
 
 ## Quick Start
 
+Quick procedure to bring up:
 1. TEMPLATECONF=$PWD/meta-renesas-ccpf/meta-rcar-gen3/docs/sample/conf/${h3ulcb|m3ulcb}-ccpf-sk/bsp/ \
    source poky/oe-init-build-env rcar-build
 2. bitbake core-image-minimal
 3. Prepare a SD card and set the u-boot environment variables. Please refer the [R-Car page on eLinux Wiki](https://elinux.org/R-Car/Boards/Yocto-Gen3/v5.1.0#Running_Yocto_images).
-4. Boot your R-Car Starter Kit.
+4. Boot your R-Car Starter Kit.	
+
+Additional information:
+* [Quick startup guide](https://elinux.org/R-Car/Boards/CCPF-SK/GettingStarted/Linux) for quick start CCPF-SK within 30 minutes.
+* [Yocto page](https://elinux.org/R-Car/Boards/CCPF-SK/Yocto-Gen3) for steps necessary for building and running a Yocto image.
 
 ## Supported Boards/Machines
 
-- Renesas Electronics Corporation. R-Car Starter Kit premier(H3ULCB) (R8A7795) on the CCPF SK board
-- Renesas Electronics Corporation. R-Car Starter Kit pro(M3ULCB) (R8A7796) on the CCPF SK board
+- Renesas Electronics Corporation. R-Car Starter Kit premier(H3ULCB) (R8A7795) on the [CCPF SK board](https://elinux.org/R-Car/Boards/CCPF-SK)
+- Renesas Electronics Corporation. R-Car Starter Kit pro(M3ULCB) (R8A7796) on the [CCPF SK board](https://elinux.org/R-Car/Boards/CCPF-SK)
