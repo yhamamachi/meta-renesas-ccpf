@@ -16,6 +16,7 @@ SRCREV = "32f66d2cf3e168adcb0366ed115cabdcb684f66b"
 PV = "git${SRCPV}"
 
 COMPATIBLE_MACHINE = "(ulcb)"
+COMPATIBLE_MACHINE_append = "|(qemuarm)"
 
 ALLOW_EMPTY_${PN} = "1"
 ALLOW_EMPTY_${PN}-dev = "1"
@@ -25,7 +26,8 @@ SRC_URI_append = " \
     file://0001-starterkit-linux-rom-writer-Fix-expect-becomes-timeo.patch \
     file://0002-starterkit-linux-rom-writer-Improve-userbility.patch \
     file://0003-starterkit-linux-rom-writer-add-speed_up-support.patch \
-    file://0004-Change-to-use-AArch64-flash-writer.patch \
+    ${@'' if d.getVar('TARGET_ARCH') == 'arm' else \
+        'file://0004-Change-to-use-AArch64-flash-writer.patch'} \
 "
 
 do_compile() {
