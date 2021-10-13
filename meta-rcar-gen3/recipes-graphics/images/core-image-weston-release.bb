@@ -1,3 +1,5 @@
+LICENSE = "MIT"
+
 require ${@"recipes-graphics/images/core-image-weston.bb" if "rcar-gen3" in d.getVar("OVERRIDES") else ""}
 require ${@"recipes-graphics/images/core-image-renesas-base.inc" if "rcar-gen3" in d.getVar("OVERRIDES") else ""}
 require ${@"recipes-graphics/images/core-image-weston.inc" if "rcar-gen3" in d.getVar("OVERRIDES") else ""}
