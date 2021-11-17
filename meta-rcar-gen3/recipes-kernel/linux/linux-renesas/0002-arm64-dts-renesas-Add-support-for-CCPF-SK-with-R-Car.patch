@@ -1,7 +1,7 @@
-From d290ec9bfcb564619ce84777a04543d068144ddc Mon Sep 17 00:00:00 2001
+From 378f09e593130fd48e3e61d055d6319c7f62383e Mon Sep 17 00:00:00 2001
 From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 Date: Wed, 25 Aug 2021 19:01:42 +0900
-Subject: [PATCH 2/2] arm64: dts: renesas: Add support for CCPF SK with R-Car
+Subject: [PATCH 2/6] arm64: dts: renesas: Add support for CCPF SK with R-Car
  M3 v1.0/v3.0
 
 Add initial support for the Renesas CCPF SK (Connected Car Platform
@@ -18,10 +18,10 @@ Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
  create mode 100644 arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
 
 diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 159dcb9f77b9..17c005922935 100644
+index 2f9502b9239a..8ec1ebb90401 100644
 --- a/arch/arm64/boot/dts/renesas/Makefile
 +++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -42,9 +42,11 @@ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-x.dtb
+@@ -42,10 +42,12 @@ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-x.dtb
  dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-xs.dtb
  dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb.dtb
  dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb-kf.dtb
@@ -29,6 +29,7 @@ index 159dcb9f77b9..17c005922935 100644
  
  dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-salvator-xs.dtb
  dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb.dtb
+ dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-kf.dtb
 +dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-ccpf-sk.dtb
  
  dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-salvator-xs.dtb
@@ -78,5 +79,5 @@ index 000000000000..905d3d8fa4fd
 +};
 +
 -- 
-2.25.1
+2.31.1
 

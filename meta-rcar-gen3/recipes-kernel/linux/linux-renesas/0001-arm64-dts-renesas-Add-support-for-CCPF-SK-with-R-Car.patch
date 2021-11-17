@@ -1,8 +1,8 @@
-From 33c1eefb076ec2811d73509e726db0d28995f738 Mon Sep 17 00:00:00 2001
+From 452a3eb1ab7fe41de490523ac96724b85770ea6a Mon Sep 17 00:00:00 2001
 From: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
 Date: Wed, 7 Jul 2021 16:40:38 +0900
-Subject: [PATCH] arm64: dts: renesas: Add support for CCPF SK with R-Car H3
- v2.0/v3.0
+Subject: [PATCH 1/6] arm64: dts: renesas: Add support for CCPF SK with R-Car
+ H3 v2.0/v3.0
 
 Add initial support for the Renesas CCPF SK (Connected Car Platform
 Starter Kit) board equipped with an R-Car H3 v2.0/v3.0 SiP.
@@ -17,7 +17,7 @@ Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
  create mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 
 diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 4e0e3c1bf374..159dcb9f77b9 100644
+index 57b6f03590ab..2f9502b9239a 100644
 --- a/arch/arm64/boot/dts/renesas/Makefile
 +++ b/arch/arm64/boot/dts/renesas/Makefile
 @@ -31,6 +31,7 @@ dtb-$(CONFIG_ARCH_R8A77951) += r8a77951-salvator-x.dtb
@@ -221,5 +221,5 @@ index 000000000000..92c448841b1c
 +	status = "okay";
 +};
 -- 
-2.25.1
+2.31.1
 

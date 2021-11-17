@@ -1,7 +1,7 @@
-From 887312463736cbb3001f3f7809c4fee24e86ce62 Mon Sep 17 00:00:00 2001
+From 4f63c599e30074cee1d6e62a9a3053a40060b95a Mon Sep 17 00:00:00 2001
 From: Gaku Inami <gaku.inami.xh@renesas.com>
 Date: Fri, 27 Aug 2021 15:35:53 +0900
-Subject: [PATCH 4/4] arm64: dts: renesas: Add ext interrupt for s2ram
+Subject: [PATCH 4/6] arm64: dts: renesas: Add ext interrupt for s2ram
 
 Signed-off-by: Gaku Inami <gaku.inami.xh@renesas.com>
 ---
@@ -26,5 +26,5 @@ index 92c448841b1c..bfff3e4291e6 100644
  
  &can0 {
 -- 
-2.25.1
+2.31.1
 
