@@ -1,0 +1,70 @@
+From 0cda0d16492d757752338312f602b3a5d81b1425 Mon Sep 17 00:00:00 2001
+From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+Date: Tue, 9 Nov 2021 16:05:16 +0900
+Subject: [PATCH 6/6] arm64: dts: renesas: Add support for CCPF SK with R-Car
+ H3e-2G v3.0
+
+Add initial support for the Renesas CCPF SK (Connected Car Platform
+Starter Kit) board equipped with an R-Car H3e-2G v3.0 SiP.
+
+Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+---
+ arch/arm64/boot/dts/renesas/Makefile          |  1 +
+ .../dts/renesas/r8a779m1-ulcb-ccpf-sk.dts     | 33 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts
+
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 8ec1ebb90401..3691f40d85ee 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -37,6 +37,7 @@ dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-x.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-xs.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-ulcb.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-ulcb-kf.dtb
++dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-ulcb-ccpf-sk.dtb
+ 
+ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-x.dtb
+ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-xs.dtb
+diff --git a/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts
+new file mode 100644
+index 000000000000..0b23d09a8858
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts
+@@ -0,0 +1,33 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the H3ULCB-2G CCPF SK(ULCB extension) board
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
++
++#include "r8a779m1-ulcb.dts"
++#include "ulcb-ccpf-sk.dtsi"
++
++/ {
++	model = "Renesas H3ULCB-2G CCPF board based on r8a779m1";
++	compatible = "renesas,ccpf-sk", "renesas,h3ulcb",
++		     "renesas,r8a779m1", "renesas,r8a7795";
++};
++
++&hdmi1 {
++	status = "okay";
++
++	ports {
++		port@1 {
++			reg = <1>;
++			rcar_dw_hdmi1_out: endpoint {
++				remote-endpoint = <&hdmi1_con>;
++			};
++		};
++	};
++};
++
++&hdmi1_con {
++	remote-endpoint = <&rcar_dw_hdmi1_out>;
++};
++
+-- 
+2.31.1
+
