@@ -10,7 +10,7 @@ inherit deploy
 S = "${WORKDIR}/git"
 
 BRANCH = "master"
-SRC_URI = "git://github.com/morimoto/renesas-bsp-rom-writer.git;branch=${BRANCH}"
+SRC_URI = "git://github.com/morimoto/renesas-bsp-rom-writer.git;branch=${BRANCH};protocol=https"
 SRCREV = "32f66d2cf3e168adcb0366ed115cabdcb684f66b"
 
 PV = "git${SRCPV}"

@@ -10,7 +10,7 @@ This layer depends on:
   * branch: dunfell
   * revision: 424296bf9bb4bae27febf91bce0118df09ce5fa1
 
-* URI: git://github.com/renesas-rcar/meta-renesas
+* URI: https://github.com/renesas-rcar/meta-renesas
   * layers; meta-rcar-gen3
   * branch: dunfell
   * revision: fd8ab2bb1b5ca98483c6f4aecf09a85c4d6bc016

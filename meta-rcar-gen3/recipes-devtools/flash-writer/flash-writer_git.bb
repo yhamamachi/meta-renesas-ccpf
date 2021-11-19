@@ -10,7 +10,7 @@ inherit deploy
 S = "${WORKDIR}/git"
 
 BRANCH = "rcar_gen3"
-SRC_URI = "git://github.com/renesas-rcar/flash_writer.git;branch=${BRANCH}"
+SRC_URI = "git://github.com/renesas-rcar/flash_writer.git;branch=${BRANCH};protocol=https"
 SRCREV = "89e18eaa543e548b4a49c7731dd998c4898eacd9"
 
 PV = "V1.0.12+renesas+git${SRCPV}"
