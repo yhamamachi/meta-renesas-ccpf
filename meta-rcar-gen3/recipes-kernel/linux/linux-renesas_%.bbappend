@@ -12,11 +12,13 @@ SRC_URI_append_ulcb = " \
     file://0003-soc-renesas-rcar_s2ram-Add-new-support-for-S2RAM-exe.patch \
     file://0004-arm64-dts-renesas-Add-ext-interrupt-for-s2ram.patch \
     file://0005-can-rcar_can-Fix-suspend-resume.patch \
+    file://0006-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
     ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 
 KERNEL_DEVICETREE_append_h3ulcb = " \
     renesas/r8a77951-ulcb-ccpf-sk.dtb \
+    renesas/r8a779m1-ulcb-ccpf-sk.dtb \
 "
 
 KERNEL_DEVICETREE_append_m3ulcb = " \
