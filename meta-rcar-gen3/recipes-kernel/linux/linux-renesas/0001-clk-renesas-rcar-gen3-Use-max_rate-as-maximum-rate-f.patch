@@ -1,0 +1,73 @@
+From b7242d9d18c0d1fa3c9121d38efe5ef672fc1974 Mon Sep 17 00:00:00 2001
+From: Dien Pham <dien.pham.ry@renesas.com>
+Date: Mon, 30 Aug 2021 15:24:24 +0700
+Subject: [PATCH 1/2] clk: renesas: rcar-gen3: Use max_rate as maximum rate for
+ normal clock instead max_freq
+
+As 'commit 246ae2ee8e76 ("clk: renesas: rcar-gen3: Add boost support to
+Z clocks")', in function cpg_z_clk_determine_rate(),
+zclk->max_rate is used to determined the maximum frequency at normal mode.
+But is it not initialized in function cpg_z_clk_register() and
+its value is zero. This makes issue that the condition check at
+"if (rate <= zclk->max_rate)" in cpg_z_clk_determine_rate() is
+always wrong.
+
+While, commit 'commit d1eb06af17e8 ("clk: renesas: rcar-gen3: Add PLL
+clock and update z-clock for propagating frequency to parent")',
+in functions cpg_z_clk_register() and cpg_z_clk_set_rate(),
+max_freq is used with same meaning with max_rate.
+
+This patch unifies to use max_rate for all callbacks of z-clock,
+and also fix above issue.
+
+Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
+---
+ drivers/clk/renesas/rcar-gen3-cpg.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
+index 57da03fc4c82..564e38f9670b 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -191,7 +191,6 @@ struct cpg_z_clk {
+ 	void __iomem *kick_reg;
+ 	unsigned long max_rate;		/* Maximum rate for normal mode */
+ 	unsigned int fixed_div;
+-	unsigned long max_freq;
+ 	u32 mask;
+ 
+ };
+@@ -259,10 +258,10 @@ static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	unsigned int mult;
+ 	unsigned int i;
+ 
+-	if (!zclk->max_freq)
++	if (!zclk->max_rate)
+ 		mult = DIV_ROUND_CLOSEST_ULL(rate * 32ULL, prate);
+-	else if (rate <= zclk->max_freq)
+-		mult = DIV_ROUND_CLOSEST_ULL(rate * 32ULL, zclk->max_freq);
++	else if (rate <= zclk->max_rate)
++		mult = DIV_ROUND_CLOSEST_ULL(rate * 32ULL, zclk->max_rate);
+ 	else
+ 		mult = 32;
+ 
+@@ -330,14 +329,14 @@ static struct clk * __init cpg_z_clk_register(const char *name,
+ 	zclk->hw.init = &init;
+ 	zclk->mask = GENMASK(offset + 4, offset);
+ 	zclk->fixed_div = div; /* PLLVCO x 1/div x SYS-CPU divider */
+-	zclk->max_freq = 1;
++	zclk->max_rate = 1;
+ 
+ 	clk = clk_register(NULL, &zclk->hw);
+ 	if (IS_ERR(clk)) {
+ 		kfree(zclk);
+ 	} else {
+ 		parent = clk_get_parent(clk);
+-		zclk->max_freq = clk_get_rate(parent) / zclk->fixed_div;
++		zclk->max_rate = clk_get_rate(parent) / zclk->fixed_div;
+ 	}
+ 
+ 	return clk;
+-- 
+2.17.1
+
