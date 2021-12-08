@@ -1,0 +1,13 @@
+[Unit]
+Description = Fan control for CCPF-SK board
+After=local-fs.target
+ConditionPathExists=/usr/bin
+
+[Service]
+ExecStart=/usr/bin/ccpfsk-fancontrol
+Restart=no
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+
