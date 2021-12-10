@@ -1,7 +1,7 @@
-From 20785235912f8b5c46e0d9c0026b0fded50be474 Mon Sep 17 00:00:00 2001
+From d8e3e83fe962343505060fe330e497629237e8bd Mon Sep 17 00:00:00 2001
 From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 Date: Mon, 13 Sep 2021 13:41:34 +0900
-Subject: [PATCH 4/4] Change to use AArch64 flash-writer
+Subject: [PATCH] Change to use AArch64 flash-writer
 
 Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 ---
@@ -10,10 +10,10 @@ Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/starterkit/linux/rom_writer b/starterkit/linux/rom_writer
-index 50d8989..1572059 100755
+index e8dd491..8bf171b 100755
 --- a/starterkit/linux/rom_writer
 +++ b/starterkit/linux/rom_writer
-@@ -129,7 +129,7 @@ proc file_check {lists} {
+@@ -124,7 +124,7 @@ proc file_check {lists} {
  
  proc mot {} {
      global top
@@ -22,9 +22,9 @@ index 50d8989..1572059 100755
  }
  
  proc mot_check {} {
-@@ -147,7 +147,7 @@ proc cpld_mode {} {
- 
-     send "\r"
+@@ -146,7 +146,7 @@ proc cpld_mode {} {
+ 	"=>" { send "\r" }
+     }
      expect {
 -	"=>" { send "cpld write 0x00 0x802181fe\r" }
 +	"=>" { send "cpld write 0x00 0x8021813e\r" }
@@ -32,10 +32,10 @@ index 50d8989..1572059 100755
      expect {
  	"=>" { send "cpld write 0x80 0x01\r" }
 diff --git a/starterkit/windows/rom_writer.ttl b/starterkit/windows/rom_writer.ttl
-index 6435463..32f580e 100755
+index 47e9855..e5247a4 100755
 --- a/starterkit/windows/rom_writer.ttl
 +++ b/starterkit/windows/rom_writer.ttl
-@@ -57,7 +57,7 @@ listbox "Auto Type Select" "Which Type ?" auto 1
+@@ -58,7 +58,7 @@ listbox "Auto Type Select" "Which Type ?" auto 1
  ; mot exist => Full Auto
  mot = ""
  if result=1 then
@@ -44,7 +44,7 @@ index 6435463..32f580e 100755
    filesearch mot
    if result==0 then
      msg = "mot file not exist\nget it from Linux user"
-@@ -202,7 +202,7 @@ if result!=1 end
+@@ -211,7 +211,7 @@ wait "=>"
  sendln ""
  
  wait "=>"

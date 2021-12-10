@@ -11,7 +11,7 @@ S = "${WORKDIR}/git"
 
 BRANCH = "master"
 SRC_URI = "git://github.com/morimoto/renesas-bsp-rom-writer.git;branch=${BRANCH};protocol=https"
-SRCREV = "32f66d2cf3e168adcb0366ed115cabdcb684f66b"
+SRCREV = "2db124fe4ee834af7f413d5f35fa763f8eabba17"
 
 PV = "git${SRCPV}"
 
@@ -23,7 +23,6 @@ ALLOW_EMPTY_${PN}-dev = "1"
 ALLOW_EMPTY_${PN}-staticdev = "1"
 
 SRC_URI_append = " \
-    file://0001-starterkit-linux-rom-writer-Fix-expect-becomes-timeo.patch \
     file://0002-starterkit-linux-rom-writer-Improve-userbility.patch \
     file://0003-starterkit-linux-rom-writer-add-speed_up-support.patch \
     ${@'' if d.getVar('TARGET_ARCH') == 'arm' else \
