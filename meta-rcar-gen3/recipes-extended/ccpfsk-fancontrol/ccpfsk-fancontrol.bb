@@ -19,6 +19,8 @@ SRCREV = "365664b3985942fa9f36186a8e56fb6dfeb557c3"
 
 S = "${WORKDIR}/git"
 
+TARGET_CC_ARCH_append = " ${LDFLAGS}"
+
 do_install_append () {
     install -d ${D}/${USRBINPATH}
     install -m 0755 ${B}/${PN} ${D}/${USRBINPATH}
