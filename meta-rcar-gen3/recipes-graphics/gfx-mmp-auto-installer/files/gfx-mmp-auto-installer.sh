@@ -16,7 +16,7 @@ do
             break
         fi
 
-        tar xf ${GFX_MMP_FILEPATH} -C /
+        tar xof ${GFX_MMP_FILEPATH} -C /
         echo "GFX/MMP package has been installed."A
         echo "The board will reboot automatically."
         sleep 5s
