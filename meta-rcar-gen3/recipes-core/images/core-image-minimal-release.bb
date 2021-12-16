@@ -1,6 +1,7 @@
 LICENSE = "MIT"
 
 require ${@"recipes-core/images/core-image-minimal.bb" if "rcar-gen3" in d.getVar("OVERRIDES") else ""}
+require ${@"recipes-graphics/images/core-image-renesas-base.inc" if "rcar-gen3" in d.getVar("OVERRIDES") else ""}
 require ${@"recipes-graphics/images/core-image-renesas-base-ccpf-sk.inc" if "rcar-gen3" in d.getVar("OVERRIDES") else ""}
 
 WKS_FILE="rcar-dualpart-noloader_ext4.wks"
