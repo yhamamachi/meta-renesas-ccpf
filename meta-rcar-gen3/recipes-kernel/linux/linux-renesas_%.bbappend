@@ -14,7 +14,6 @@ SRC_URI_append_ulcb = " \
     file://0005-can-rcar_can-Fix-suspend-resume.patch \
     file://0006-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
     file://0007-arm64-dts-renesas-Add-support-pwm0-for-CCPF-SK.patch \
-    file://0001-clk-renesas-rcar-gen3-Use-max_rate-as-maximum-rate-f.patch \
     ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 
