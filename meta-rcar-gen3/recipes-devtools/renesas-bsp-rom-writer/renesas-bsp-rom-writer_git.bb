@@ -11,7 +11,7 @@ S = "${WORKDIR}/git"
 
 BRANCH = "master"
 SRC_URI = "git://github.com/morimoto/renesas-bsp-rom-writer.git;branch=${BRANCH};protocol=https"
-SRCREV = "2db124fe4ee834af7f413d5f35fa763f8eabba17"
+SRCREV = "748c0591c932eeb8200ae6df15bef078a3c5adc7"
 
 PV = "git${SRCPV}"
 
@@ -23,14 +23,14 @@ ALLOW_EMPTY_${PN}-dev = "1"
 ALLOW_EMPTY_${PN}-staticdev = "1"
 
 SRC_URI_append = " \
-    file://0002-starterkit-linux-rom-writer-Improve-userbility.patch \
-    file://0003-starterkit-linux-rom-writer-add-speed_up-support.patch \
+    file://0001-starterkit-Add-Yocto-5.9.0-support.patch \
+    file://0002-starterkit-linux-rom_writer-Change-flash_writer-path.patch \
     ${@'' if d.getVar('TARGET_ARCH') == 'arm' else \
-        'file://0004-Change-to-use-AArch64-flash-writer.patch'} \
+        'file://0003-starterkit-Change-to-use-AArch64-flash-writer.patch'} \
 "
 
 do_compile() {
-    cd ${B}/starterkit
+    cd ${B}/starterkit/linux
     oe_runmake loop_yocto
 }
 
