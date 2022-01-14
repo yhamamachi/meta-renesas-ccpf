@@ -299,3 +299,6 @@ DISTRO_FEATURES_remove = "ptest"
 # Set Timestamps at the build start
 export SOURCE_DATE_EPOCH = "${@time.strftime('%s', time.localtime())}"
 REPRODUCIBLE_TIMESTAMP_ROOTFS = "${@time.strftime('%s', time.localtime())}"
+
+# Mask Chromium recipe
+BBMASK .= "|chromium-ozone-wayland"
