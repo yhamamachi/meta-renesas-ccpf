@@ -1,0 +1,89 @@
+From b7f9653ed4d100b4ea75edad07030d919e48e50c Mon Sep 17 00:00:00 2001
+From: Marc Zyngier <maz@kernel.org>
+Date: Tue, 30 Mar 2021 16:11:33 +0100
+Subject: [PATCH 09/10] PCI: rcar: Don't allocate extra memory for the MSI
+ capture address
+
+A long cargo-culted behaviour of PCI drivers is to allocate memory
+to obtain an address that is fed to the controller as the MSI
+capture address (i.e. the MSI doorbell).
+
+But there is no actual requirement for this address to be RAM.
+All it needs to be is a suitable aligned address that will
+*not* be DMA'd to.
+
+Since the rcar platform already has a requirement that this
+address should be in the first 4GB of the physical address space,
+use the controller's own base address as the capture address.
+
+Link: https://lore.kernel.org/r/20210330151145.997953-3-maz@kernel.org
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/pci/controller/pcie-rcar-host.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index 74b4a2067c02..9253d05c1798 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -37,7 +37,6 @@ struct rcar_msi {
+ 	DECLARE_BITMAP(used, INT_PCI_MSI_NR);
+ 	struct irq_domain *domain;
+ 	struct msi_controller chip;
+-	unsigned long pages;
+ 	struct mutex lock;
+ 	int irq1;
+ 	int irq2;
+@@ -712,14 +711,15 @@ static void rcar_pcie_unmap_msi(struct rcar_pcie_host *host)
+ static void rcar_pcie_hw_enable_msi(struct rcar_pcie_host *host)
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+-	struct rcar_msi *msi = &host->msi;
+-	unsigned long base;
++	struct device *dev = pcie->dev;
++	struct resource res;
+ 
+-	/* setup MSI data target */
+-	base = virt_to_phys((void *)msi->pages);
++	if (WARN_ON(of_address_to_resource(dev->of_node, 0, &res)))
++		return;
+ 
+-	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+-	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
++	/* setup MSI data target */
++	rcar_pci_write_reg(pcie, lower_32_bits(res.start) | MSIFE, PCIEMSIALR);
++	rcar_pci_write_reg(pcie, upper_32_bits(res.start), PCIEMSIAUR);
+ 
+ 	/* enable all MSI interrupts */
+ 	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+@@ -767,7 +767,6 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+ 	}
+ 
+ 	/* setup MSI data target */
+-	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
+ 	rcar_pcie_hw_enable_msi(host);
+ 
+ 	return 0;
+@@ -780,7 +779,6 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+ static void rcar_pcie_teardown_msi(struct rcar_pcie_host *host)
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+-	struct rcar_msi *msi = &host->msi;
+ 
+ 	/* Disable all MSI interrupts */
+ 	rcar_pci_write_reg(pcie, 0, PCIEMSIIER);
+@@ -788,8 +786,6 @@ static void rcar_pcie_teardown_msi(struct rcar_pcie_host *host)
+ 	/* Disable address decoding of the MSI interrupt, MSIFE */
+ 	rcar_pci_write_reg(pcie, 0, PCIEMSIALR);
+ 
+-	free_pages(msi->pages, 0);
+-
+ 	rcar_pcie_unmap_msi(host);
+ }
+ 
+-- 
+2.25.1
+

@@ -15,6 +15,8 @@ SRC_URI_append_ulcb = " \
     file://0006-can-rcar_can-Fix-suspend-resume.patch \
     file://0007-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
     file://0008-arm64-dts-renesas-Add-support-pwm0-for-CCPF-SK.patch \
+    file://0009-PCI-rcar-Don-t-allocate-extra-memory-for-the-MSI-cap.patch \
+    file://0010-PCI-rcar-Convert-to-MSI-domains.patch \
     ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 
