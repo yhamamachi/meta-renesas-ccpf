@@ -1,0 +1,83 @@
+From fcdfab7ed6b57323036626110158e5f1c26d0515 Mon Sep 17 00:00:00 2001
+From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+Date: Wed, 25 Aug 2021 19:01:42 +0900
+Subject: [PATCH 3/8] arm64: dts: renesas: Add support for CCPF SK with R-Car
+ M3 v1.0/v3.0
+
+Add initial support for the Renesas CCPF SK (Connected Car Platform
+Starter Kit) board equipped with an R-Car M3 v1.0/v3.0 SiP.
+
+Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+---
+ arch/arm64/boot/dts/renesas/Makefile             |  2 ++
+ .../boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts   | 16 ++++++++++++++++
+ .../boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts   | 16 ++++++++++++++++
+ 3 files changed, 34 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
+
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 2f9502b9239a..8ec1ebb90401 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -42,10 +42,12 @@ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-x.dtb
+ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-xs.dtb
+ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb.dtb
+ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb-kf.dtb
++dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb-ccpf-sk.dtb
+ 
+ dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-salvator-xs.dtb
+ dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb.dtb
+ dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-kf.dtb
++dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-ccpf-sk.dtb
+ 
+ dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-salvator-xs.dtb
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts
+new file mode 100644
+index 000000000000..a0bd56244687
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the M3ULCB CCPF SK(ULCB extension) board
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
++
++#include "r8a77960-ulcb.dts"
++#include "ulcb-ccpf-sk.dtsi"
++
++/ {
++	model = "Renesas M3ULCB CCPF board based on r8a77960";
++	compatible = "shimafuji,ccpf-sk", "renesas,m3ulcb",
++		     "renesas,r8a7796";
++};
++
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
+new file mode 100644
+index 000000000000..e505d45d22bd
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the M3ULCB CCPF SK(ULCB extension) board
++ *
++ * Copyright (C) 2021 Renesas Electronics Corp.
++ */
++
++#include "r8a77961-ulcb.dts"
++#include "ulcb-ccpf-sk.dtsi"
++
++/ {
++	model = "Renesas M3ULCB CCPF board based on r8a77961";
++	compatible = "shimafuji,ccpf-sk", "renesas,m3ulcb",
++		     "renesas,r8a7796";
++};
++
+-- 
+2.25.1
+

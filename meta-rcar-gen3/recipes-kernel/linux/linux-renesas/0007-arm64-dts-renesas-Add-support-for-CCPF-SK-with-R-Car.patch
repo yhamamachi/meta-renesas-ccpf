@@ -1,7 +1,7 @@
-From 0cda0d16492d757752338312f602b3a5d81b1425 Mon Sep 17 00:00:00 2001
+From 244491718537fe59017f696cddb09e4197f2e117 Mon Sep 17 00:00:00 2001
 From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 Date: Tue, 9 Nov 2021 16:05:16 +0900
-Subject: [PATCH 6/6] arm64: dts: renesas: Add support for CCPF SK with R-Car
+Subject: [PATCH 7/8] arm64: dts: renesas: Add support for CCPF SK with R-Car
  H3e-2G v3.0
 
 Add initial support for the Renesas CCPF SK (Connected Car Platform
@@ -10,8 +10,8 @@ Starter Kit) board equipped with an R-Car H3e-2G v3.0 SiP.
 Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 ---
  arch/arm64/boot/dts/renesas/Makefile          |  1 +
- .../dts/renesas/r8a779m1-ulcb-ccpf-sk.dts     | 33 +++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ .../dts/renesas/r8a779m1-ulcb-ccpf-sk.dts     | 32 +++++++++++++++++++
+ 2 files changed, 33 insertions(+)
  create mode 100644 arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts
 
 diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
@@ -28,10 +28,10 @@ index 8ec1ebb90401..3691f40d85ee 100644
  dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-xs.dtb
 diff --git a/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts
 new file mode 100644
-index 000000000000..0b23d09a8858
+index 000000000000..558245788893
 --- /dev/null
 +++ b/arch/arm64/boot/dts/renesas/r8a779m1-ulcb-ccpf-sk.dts
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,32 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Device Tree Source for the H3ULCB-2G CCPF SK(ULCB extension) board
@@ -44,7 +44,7 @@ index 000000000000..0b23d09a8858
 +
 +/ {
 +	model = "Renesas H3ULCB-2G CCPF board based on r8a779m1";
-+	compatible = "renesas,ccpf-sk", "renesas,h3ulcb",
++	compatible = "shimafuji,ccpf-sk", "renesas,h3ulcb",
 +		     "renesas,r8a779m1", "renesas,r8a7795";
 +};
 +
@@ -64,7 +64,6 @@ index 000000000000..0b23d09a8858
 +&hdmi1_con {
 +	remote-endpoint = <&rcar_dw_hdmi1_out>;
 +};
-+
 -- 
-2.31.1
+2.25.1
 

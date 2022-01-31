@@ -7,13 +7,14 @@ SUPPORT_LTTNG = " \
 SRC_URI_append_ulcb = " \
     file://can.cfg \
     file://nvme.cfg \
-    file://0001-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
+    file://0001-dt-bindings-arm-renesas-Document-Renesas-CCPF-SK-boa.patch \
     file://0002-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
-    file://0003-soc-renesas-rcar_s2ram-Add-new-support-for-S2RAM-exe.patch \
-    file://0004-arm64-dts-renesas-Add-ext-interrupt-for-s2ram.patch \
-    file://0005-can-rcar_can-Fix-suspend-resume.patch \
-    file://0006-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
-    file://0007-arm64-dts-renesas-Add-support-pwm0-for-CCPF-SK.patch \
+    file://0003-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
+    file://0004-soc-renesas-rcar_s2ram-Add-new-support-for-S2RAM-exe.patch \
+    file://0005-arm64-dts-renesas-Add-ext-interrupt-for-s2ram.patch \
+    file://0006-can-rcar_can-Fix-suspend-resume.patch \
+    file://0007-arm64-dts-renesas-Add-support-for-CCPF-SK-with-R-Car.patch \
+    file://0008-arm64-dts-renesas-Add-support-pwm0-for-CCPF-SK.patch \
     ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 

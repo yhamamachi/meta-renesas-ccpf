@@ -1,7 +1,7 @@
-From 49f9604a9b72d2648962e2fccd9d630ff746173c Mon Sep 17 00:00:00 2001
+From 5424ea9c8247136ef06594837f975d15db820cd5 Mon Sep 17 00:00:00 2001
 From: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
 Date: Wed, 21 Jul 2021 16:06:59 +0900
-Subject: [PATCH 3/6] soc: renesas: rcar_s2ram: Add new support for S2RAM exec
+Subject: [PATCH 4/8] soc: renesas: rcar_s2ram: Add new support for S2RAM exec
  function
 
 Signed-off-by: Ayumi Nakamichi <ayumi.nakamichi.kf@renesas.com>
@@ -22,7 +22,7 @@ index 5080afb9d252..0cf51a991e12 100644
 +obj-y 				+= rcar_s2ram.o
 diff --git a/drivers/soc/renesas/rcar_s2ram.c b/drivers/soc/renesas/rcar_s2ram.c
 new file mode 100644
-index 000000000000..bb97041e9dae
+index 000000000000..e6d4cc83017e
 --- /dev/null
 +++ b/drivers/soc/renesas/rcar_s2ram.c
 @@ -0,0 +1,82 @@
@@ -94,8 +94,8 @@ index 000000000000..bb97041e9dae
 +}
 +
 +static const struct of_device_id rcar_s2ram_dt_ids[] = {
-+        { .compatible = "renesas,ccpf-sk", },
-+        { }
++	{ .compatible = "shimafuji,ccpf-sk", },
++	{ }
 +};
 +MODULE_DEVICE_TABLE(of, rcar_s2ram_dt_ids);
 +
@@ -109,5 +109,5 @@ index 000000000000..bb97041e9dae
 +
 +module_platform_driver(rcar_s2ram_driver);
 -- 
-2.31.1
+2.25.1
 

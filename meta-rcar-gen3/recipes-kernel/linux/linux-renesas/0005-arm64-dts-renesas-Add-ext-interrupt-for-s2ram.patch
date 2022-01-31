@@ -1,7 +1,7 @@
-From 4f63c599e30074cee1d6e62a9a3053a40060b95a Mon Sep 17 00:00:00 2001
+From 92a57eb28243414d2f9935f09b8b2ca1afd7c57d Mon Sep 17 00:00:00 2001
 From: Gaku Inami <gaku.inami.xh@renesas.com>
 Date: Fri, 27 Aug 2021 15:35:53 +0900
-Subject: [PATCH 4/6] arm64: dts: renesas: Add ext interrupt for s2ram
+Subject: [PATCH 5/8] arm64: dts: renesas: Add ext interrupt for s2ram
 
 Signed-off-by: Gaku Inami <gaku.inami.xh@renesas.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Gaku Inami <gaku.inami.xh@renesas.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
-index 92c448841b1c..bfff3e4291e6 100644
+index 634190c9c3ca..04e84b3f9380 100644
 --- a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 +++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 @@ -17,6 +17,12 @@ hdmi1_con: endpoint {
@@ -18,7 +18,7 @@ index 92c448841b1c..bfff3e4291e6 100644
  	};
 +
 +	s2ram_extint {
-+		compatible = "renesas,ccpf-sk";
++		compatible = "shimafuji,ccpf-sk";
 +		gpios = <&gpio6 21 GPIO_ACTIVE_LOW>;
 +		status = "okay";
 +	};
@@ -26,5 +26,5 @@ index 92c448841b1c..bfff3e4291e6 100644
  
  &can0 {
 -- 
-2.31.1
+2.25.1
 

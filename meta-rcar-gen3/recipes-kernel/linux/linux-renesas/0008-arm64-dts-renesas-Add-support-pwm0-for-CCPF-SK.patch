@@ -1,7 +1,9 @@
-From 3ec504ff23f6d37b308972e34a0aaed74cc771b7 Mon Sep 17 00:00:00 2001
+From 75d313ba57e13d62888917bd460a01655b264610 Mon Sep 17 00:00:00 2001
 From: Tomohiro Komagata <tomohiro.komagata.aj@gmail.com>
 Date: Tue, 30 Nov 2021 14:26:54 +0900
-Subject: [PATCH 7/7] arm64: dts: renesas: Add support pwm0 for CCPF SK
+Subject: [PATCH 8/8] arm64: dts: renesas: Add support pwm0 for CCPF-SK
+
+pwm0 is used for the fan control via RL78 on the CCPF-SK boards
 
 Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@gmail.com>
 ---
@@ -9,7 +11,7 @@ Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@gmail.com>
  1 file changed, 12 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
-index bfff3e4291e6..4389d14d6713 100644
+index 04e84b3f9380..7db95110078e 100644
 --- a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 +++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 @@ -104,6 +104,11 @@ du_pins: du {
@@ -36,7 +38,7 @@ index bfff3e4291e6..4389d14d6713 100644
 +};
 +
  &usb_extal_clk {
-         clock-frequency = <50000000>;
+ 	clock-frequency = <50000000>;
  };
 -- 
 2.25.1

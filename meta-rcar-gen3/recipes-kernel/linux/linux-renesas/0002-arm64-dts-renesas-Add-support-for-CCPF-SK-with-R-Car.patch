@@ -1,83 +1,225 @@
-From 378f09e593130fd48e3e61d055d6319c7f62383e Mon Sep 17 00:00:00 2001
-From: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-Date: Wed, 25 Aug 2021 19:01:42 +0900
-Subject: [PATCH 2/6] arm64: dts: renesas: Add support for CCPF SK with R-Car
- M3 v1.0/v3.0
+From 2bcf28c514572a32a7350f67a55f73efe81d58d1 Mon Sep 17 00:00:00 2001
+From: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+Date: Wed, 7 Jul 2021 16:40:38 +0900
+Subject: [PATCH 2/8] arm64: dts: renesas: Add support for CCPF SK with R-Car
+ H3 v2.0/v3.0
 
 Add initial support for the Renesas CCPF SK (Connected Car Platform
-Starter Kit) board equipped with an R-Car M3 v1.0/v3.0 SiP.
+Starter Kit) board equipped with an R-Car H3 v2.0/v3.0 SiP.
 
-Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
 Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/Makefile             |  2 ++
- .../boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts   | 16 ++++++++++++++++
- .../boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts   | 16 ++++++++++++++++
- 3 files changed, 34 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts
- create mode 100644 arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
+ arch/arm64/boot/dts/renesas/Makefile          |   1 +
+ .../dts/renesas/r8a77951-ulcb-ccpf-sk.dts     |  33 ++++
+ arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi | 147 ++++++++++++++++++
+ 3 files changed, 181 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a77951-ulcb-ccpf-sk.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 
 diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 2f9502b9239a..8ec1ebb90401 100644
+index 57b6f03590ab..2f9502b9239a 100644
 --- a/arch/arm64/boot/dts/renesas/Makefile
 +++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -42,10 +42,12 @@ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-x.dtb
- dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-salvator-xs.dtb
- dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb-kf.dtb
-+dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb-ccpf-sk.dtb
+@@ -31,6 +31,7 @@ dtb-$(CONFIG_ARCH_R8A77951) += r8a77951-salvator-x.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a77951-salvator-xs.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a77951-ulcb.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a77951-ulcb-kf.dtb
++dtb-$(CONFIG_ARCH_R8A77951) += r8a77951-ulcb-ccpf-sk.dtb
  
- dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-salvator-xs.dtb
- dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-kf.dtb
-+dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-ccpf-sk.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77961) += r8a779m3-salvator-xs.dtb
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-x.dtb
+ dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-xs.dtb
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a77951-ulcb-ccpf-sk.dts
 new file mode 100644
-index 000000000000..61cb52963f8c
+index 000000000000..aaef840022c4
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a77960-ulcb-ccpf-sk.dts
-@@ -0,0 +1,16 @@
++++ b/arch/arm64/boot/dts/renesas/r8a77951-ulcb-ccpf-sk.dts
+@@ -0,0 +1,33 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Device Tree Source for the M3ULCB CCPF SK(ULCB extension) board
++ * Device Tree Source for the H3ULCB CCPF SK(ULCB extension) board
 + *
 + * Copyright (C) 2021 Renesas Electronics Corp.
 + */
 +
-+#include "r8a77960-ulcb.dts"
++#include "r8a77951-ulcb.dts"
 +#include "ulcb-ccpf-sk.dtsi"
 +
 +/ {
-+	model = "Renesas M3ULCB CCPF board based on r8a77960";
-+	compatible = "renesas,ccpf-sk", "renesas,m3ulcb",
-+		     "renesas,r8a7796";
++	model = "Renesas H3ULCB CCPF board based on r8a77951";
++	compatible = "shimafuji,ccpf-sk", "renesas,h3ulcb",
++		     "renesas,r8a7795";
 +};
 +
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts b/arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
++&hdmi1 {
++	status = "okay";
++
++	ports {
++		port@1 {
++			reg = <1>;
++			rcar_dw_hdmi1_out: endpoint {
++				remote-endpoint = <&hdmi1_con>;
++			};
++		};
++	};
++};
++
++&hdmi1_con {
++	remote-endpoint = <&rcar_dw_hdmi1_out>;
++};
++
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
 new file mode 100644
-index 000000000000..905d3d8fa4fd
+index 000000000000..634190c9c3ca
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a77961-ulcb-ccpf-sk.dts
-@@ -0,0 +1,16 @@
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
+@@ -0,0 +1,147 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Device Tree Source for the M3ULCB CCPF SK(ULCB extension) board
++ * Device Tree Source for the CCPF (ULCB extension) board
 + *
 + * Copyright (C) 2021 Renesas Electronics Corp.
 + */
 +
-+#include "r8a77961-ulcb.dts"
-+#include "ulcb-ccpf-sk.dtsi"
++#include <dt-bindings/gpio/gpio.h>
 +
 +/ {
-+	model = "Renesas M3ULCB CCPF board based on r8a77961";
-+	compatible = "renesas,ccpf-sk", "renesas,m3ulcb",
-+		     "renesas,r8a7796";
++	hdmi1-out {
++		compatible = "hdmi-connector";
++		type = "a";
++
++		port {
++			hdmi1_con: endpoint {
++			};
++		};
++	};
 +};
 +
++&can0 {
++	pinctrl-0 = <&can0_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&can1 {
++	pinctrl-0 = <&can1_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
++&canfd {
++	pinctrl-0 = <&canfd0_pins &canfd1_pins>;
++	pinctrl-names = "default";
++	status = "disabled";
++
++	channel0 {
++		status = "okay";
++	};
++
++	channel1 {
++		status = "okay";
++	};
++};
++
++&ehci0 {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&hsusb {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&ohci0 {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&pcie_bus_clk {
++	clock-frequency = <100000000>;
++};
++
++&pciec0 {
++	status = "okay";
++};
++
++&pciec1 {
++	status = "okay";
++};
++
++&pfc {
++	can0_pins: can0 {
++		groups = "can0_data_a";
++		function = "can0";
++	};
++
++	can1_pins: can1 {
++		groups = "can1_data";
++		function = "can1";
++	};
++
++	canfd0_pins: canfd0 {
++		groups = "canfd0_data_a";
++		function = "canfd0";
++	};
++
++	canfd1_pins: canfd1 {
++		groups = "canfd1_data";
++		function = "canfd1";
++	};
++
++	du_pins: du {
++		groups = "du_rgb888", "du_sync", "du_clk_out_0", "du_disp";
++		function = "du";
++	};
++
++	usb0_pins: usb0 {
++		groups = "usb0";
++		function = "usb0";
++	};
++
++	usb30_pins: usb30 {
++		groups = "usb30";
++		function = "usb30";
++	};
++};
++
++&usb_extal_clk {
++	clock-frequency = <50000000>;
++};
++
++&usb2_phy0 {
++	pinctrl-0 = <&usb0_pins>;
++	pinctrl-names = "default";
++
++	renesas,no-otg-pins;
++
++	status = "okay";
++};
++
++&usb3_peri0 {
++	phys = <&usb3_phy0>;
++	phy-names = "usb";
++
++	companion = <&xhci0>;
++
++	status = "okay";
++};
++
++&usb3_phy0 {
++	status = "okay";
++};
++
++&usb3s0_clk {
++	clock-frequency = <100000000>;
++};
++
++&xhci0 {
++	pinctrl-0 = <&usb30_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++};
 -- 
-2.31.1
+2.25.1
 

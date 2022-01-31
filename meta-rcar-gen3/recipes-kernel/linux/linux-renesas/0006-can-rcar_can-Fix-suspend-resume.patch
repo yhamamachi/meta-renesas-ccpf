@@ -1,7 +1,7 @@
-From 64680c8c4fd6f4403f5781e83f26d22ad3576615 Mon Sep 17 00:00:00 2001
+From 14a8403a3e7ebe8886d1b445b6338c7c45fb9806 Mon Sep 17 00:00:00 2001
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Date: Wed, 15 Sep 2021 11:44:48 +0900
-Subject: [PATCH 5/6] can: rcar_can: Fix suspend/resume
+Subject: [PATCH 6/8] can: rcar_can: Fix suspend/resume
 
 If the driver was not opened, the clk_disable() is possible to
 be called even if disabled the clock.
@@ -65,5 +65,5 @@ index 48575900adb7..08316eeb757c 100644
  }
  
 -- 
-2.31.1
+2.25.1
 

@@ -1,0 +1,39 @@
+From b239558e8c4be06b4b988b596377954d46d3d4e9 Mon Sep 17 00:00:00 2001
+From: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+Date: Sat, 29 Jan 2022 01:42:12 +0900
+Subject: [PATCH 1/8] dt-bindings: arm: renesas: Document Renesas CCPF-SK
+ boards
+
+Document the use of the Connected car platform evaluation board
+(CCPF-SK) with the R-Car Starter Kit Premier and the R-Car Starter
+Kit Pro.
+
+Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+---
+ Documentation/devicetree/bindings/arm/renesas.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
+index ff94c45eefb0..2dcec4c6b35f 100644
+--- a/Documentation/devicetree/bindings/arm/renesas.yaml
++++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+@@ -247,6 +247,16 @@ properties:
+               - renesas,r8a7796
+               - renesas,r8a77965
+ 
++      - description: Connected car platform evaluation board for R-Car Starter Kit (SBEV-RCAR-CCPF-SK)
++        items:
++          - const: shimafuji,ccpf-sk
++          - enum:
++              - renesas,h3ulcb
++              - renesas,m3ulcb
++          - enum:
++              - renesas,r8a7795
++              - renesas,r8a7796
++
+       - description: R-Car M3-N (R8A77965)
+         items:
+           - enum:
+-- 
+2.25.1
+
