@@ -17,6 +17,14 @@ SRC_URI_append_ulcb = " \
     file://0008-arm64-dts-renesas-Add-support-pwm0-for-CCPF-SK.patch \
     file://0009-PCI-rcar-Don-t-allocate-extra-memory-for-the-MSI-cap.patch \
     file://0010-PCI-rcar-Convert-to-MSI-domains.patch \
+    file://0011-gpio-pca953x-do-not-ignore-i2c-errors.patch \
+    file://0012-media-v4l2-async-workaround-for-RCAR-VIN.patch \
+    file://0013-media-platform-rcar-vin-add-GREY-format.patch \
+    file://0014-media-platform-rcar-vin-add-G-S_PARM-ioctl.patch \
+    file://0015-media-i2c-imx219-Set-subdevice-fwnode.patch \
+    file://0016-media-i2c-imx219-Set-8-bit-SBGGR-mode-by-default.patch \
+    file://0017-media-rcar-vin-Fix-VNIS_REG-settings.patch \
+    file://0018-media-i2c-imx219-Align-default-frame-width-to-32.patch \
     ${@oe.utils.conditional("USE_LTTNG", "1", "${SUPPORT_LTTNG}", "", d)} \
 "
 
