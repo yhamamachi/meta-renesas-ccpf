@@ -310,3 +310,7 @@ REPRODUCIBLE_TIMESTAMP_ROOTFS = "${@time.strftime('%s', time.localtime())}"
 
 # Mask Chromium recipe
 BBMASK .= "|chromium-ozone-wayland"
+
+# Configuration for CSI cameras
+# Enable a following line if camera0/camera1 connecters are used.
+#USE_CSI_CAMERA = "1"

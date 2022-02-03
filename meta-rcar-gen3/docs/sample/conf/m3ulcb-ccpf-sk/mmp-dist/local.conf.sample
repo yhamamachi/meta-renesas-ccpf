@@ -443,3 +443,7 @@ IMAGE_INSTALL_append = " chromium-ozone-wayland"
 
 # Additional benchmark tools
 IMAGE_INSTALL_append = " dhrystone lmbench glmark2"
+
+# Configuration for CSI cameras
+# Comment out a following line if camera0/camera1 connecters are not used.
+USE_CSI_CAMERA = "1"
