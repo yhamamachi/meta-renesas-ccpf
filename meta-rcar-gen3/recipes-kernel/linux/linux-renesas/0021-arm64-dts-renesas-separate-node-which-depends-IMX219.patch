@@ -1,0 +1,385 @@
+From 39d62b8770e2350165bce691e15a56756c10e350 Mon Sep 17 00:00:00 2001
+From: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+Date: Tue, 15 Feb 2022 16:15:07 +0900
+Subject: [PATCH 21/21] arm64: dts: renesas: separate node which depends IMX219
+ for CCPF-SK
+
+This commit separates nodes for CSI camera connected to CN12/CN13
+which depends IMX219 as the device tree overlay to use another
+camera modules.
+
+Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+---
+ arch/arm64/boot/dts/renesas/Makefile          |  7 +-
+ .../dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi | 55 -------------
+ .../dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtso | 82 +++++++++++++++++++
+ .../dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi | 55 -------------
+ .../dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtso | 82 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi | 16 +---
+ 6 files changed, 171 insertions(+), 126 deletions(-)
+ delete mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtso
+ delete mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtso
+
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 3691f40d85ee..b6a839a7f211 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -92,7 +92,7 @@ dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-es2-condor.dtb
+ dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-es2-v3hsk.dtb
+ 
+ # overlays
+-# DTC_FLAGS += -@
++DTC_FLAGS += -@
+ # ulcb-kf-dtbo := ulcb-kf-cn11.dtbo ulcb-kf-most.dtbo ulcb-kf-sd3.dtbo \
+ #		ulcb-kf-cn10-pca.dtbo ulcb-kf-cn11-pca.dtbo \
+ #		ulcb-kf-cn10-gmsl2.dtbo ulcb-kf-cn11-gmsl2.dtbo \
+@@ -101,10 +101,15 @@ dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-es2-v3hsk.dtb
+ #		ulcb-kf-panel-mitsubishi-aa121td01-1280x800.dtbo \
+ #		ulcb-kf-imx219.dtbo
+ 
++ulcb-ccpf-sk-dtbo := ulcb-ccpf-sk-cn12-imx219.dtbo ulcb-ccpf-sk-cn13-imx219.dtbo
++
+ # vb-dtbo := vb-fdplink-output.dtbo
+ 
+ # dtb-$(CONFIG_ARCH_R8A77951) += $(ulcb-kf-dtbo)
+ # dtb-$(CONFIG_ARCH_R8A77961) += $(ulcb-kf-dtbo)
+ # dtb-$(CONFIG_ARCH_R8A77965) += $(ulcb-kf-dtbo)
++dtb-$(CONFIG_ARCH_R8A77951) += $(ulcb-ccpf-sk-dtbo)
++dtb-$(CONFIG_ARCH_R8A77960) += $(ulcb-ccpf-sk-dtbo)
++dtb-$(CONFIG_ARCH_R8A77961) += $(ulcb-ccpf-sk-dtbo)
+ # dtb-$(CONFIG_ARCH_R8A77970) += $(vb-dtbo)
+ # dtb-$(CONFIG_ARCH_R8A77980) += $(vb-dtbo)
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi
+deleted file mode 100644
+index ce9ae525febb..000000000000
+--- a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi
++++ /dev/null
+@@ -1,55 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Device Tree Source for the CCPF-SK (ULCB extension) with IMX219 on camera0
+- *
+- * Copyright (C) 2022 Renesas Electronics Corp.
+- */
+-
+-/ {
+-	imx219_camera_clk: imx219_camera_clk {
+-		compatible = "fixed-clock";
+-		#clock-cells = <0>;
+-		clock-frequency = <24000000>;
+-		clock-output-names = "xclk";
+-	};
+-
+-	i2c4-mux {
+-		i2c@0 {
+-			imx219_camera0: imx219@10 {
+-				compatible = "sony,imx219";
+-				reg = <0x10>;
+-				clocks = <&imx219_camera_clk>;
+-				clock-names = "xclk";
+-
+-				port {
+-					imx219_camera0_out: endpoint {
+-						clock-lanes = <0>;
+-						data-lanes = <1 2>;
+-						link-frequencies = /bits/ 64 <456000000>;
+-						remote-endpoint = <&csi40_in>;
+-					};
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&csi40 {
+-	status = "okay";
+-
+-	ports {
+-		port@0 {
+-			reg = <0>;
+-
+-			csi40_in: endpoint {
+-				clock-lanes = <0>;
+-				data-lanes = <1 2>;
+-				remote-endpoint = <&imx219_camera0_out>;
+-			};
+-		};
+-	};
+-};
+-
+-&vin0 {
+-	status = "okay";
+-};
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtso b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtso
+new file mode 100644
+index 000000000000..29c1850f93b2
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtso
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Overlay for the CCPF-SK (ULCB extension) board:
++ * use IMX219 camera connected to CN12
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++/dts-v1/;
++/plugin/;
++
++/ {
++	fragment@0 {
++		target-path = "/";
++		__overlay__ {
++			imx219_camera0_clk: imx219_camera0_clk {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <24000000>;
++				clock-output-names = "xclk0";
++			};
++
++			i2c4-mux {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				status = "okay";
++
++				i2c@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					imx219_camera0: imx219@10 {
++						compatible = "sony,imx219";
++						reg = <0x10>;
++						clocks = <&imx219_camera0_clk>;
++						clock-names = "xclk0";
++
++						port {
++							imx219_camera0_out: endpoint {
++								clock-lanes = <0>;
++								data-lanes = <1 2>;
++								link-frequencies = /bits/ 64 <456000000>;
++								remote-endpoint = <&csi40_in>;
++							};
++						};
++					};
++				};
++			};
++		};
++	};
++
++	fragment@1 {
++		target = <&csi40>;
++		__overlay__ {
++			status = "okay";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++
++					csi40_in: endpoint {
++						clock-lanes = <0>;
++						data-lanes = <1 2>;
++						remote-endpoint = <&imx219_camera0_out>;
++					};
++				};
++			};
++		};
++	};
++
++	fragment@2 {
++		target = <&vin0>;
++		__overlay__ {
++			status = "okay";
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi
+deleted file mode 100644
+index 33d6338d761c..000000000000
+--- a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi
++++ /dev/null
+@@ -1,55 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Device Tree Source for the CCPF-SK (ULCB extension) with IMX219 on camera1
+- *
+- * Copyright (C) 2022 Renesas Electronics Corp.
+- */
+-
+-/ {
+-	imx219_camera_clk: imx219_camera_clk {
+-		compatible = "fixed-clock";
+-		#clock-cells = <0>;
+-		clock-frequency = <24000000>;
+-		clock-output-names = "xclk";
+-	};
+-
+-	i2c4-mux {
+-		i2c@1 {
+-			imx219_camera1: imx219@10 {
+-				compatible = "sony,imx219";
+-				reg = <0x10>;
+-				clocks = <&imx219_camera_clk>;
+-				clock-names = "xclk";
+-
+-				port {
+-					imx219_camera1_out: endpoint {
+-						clock-lanes = <0>;
+-						data-lanes = <1 2>;
+-						link-frequencies = /bits/ 64 <456000000>;
+-						remote-endpoint = <&csi20_in>;
+-					};
+-				};
+-			};
+-		};
+-	};
+-};
+-
+-&csi20 {
+-	status = "okay";
+-
+-	ports {
+-		port@0 {
+-			reg = <0>;
+-
+-			csi20_in: endpoint {
+-				clock-lanes = <0>;
+-				data-lanes = <1 2>;
+-				remote-endpoint = <&imx219_camera1_out>;
+-			};
+-		};
+-	};
+-};
+-
+-&vin4 {
+-	status = "okay";
+-};
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtso b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtso
+new file mode 100644
+index 000000000000..fbc7c6644076
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtso
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Overlay for the CCPF-SK (ULCB extension) board:
++ * use IMX219 camera connected to CN13
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++/dts-v1/;
++/plugin/;
++
++/ {
++	fragment@0 {
++		target-path = "/";
++		__overlay__ {
++			imx219_camera1_clk: imx219_camera1_clk {
++				compatible = "fixed-clock";
++				#clock-cells = <0>;
++				clock-frequency = <24000000>;
++				clock-output-names = "xclk1";
++			};
++
++			i2c4-mux {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				status = "okay";
++
++				i2c@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					imx219_camera1: imx219@10 {
++						compatible = "sony,imx219";
++						reg = <0x10>;
++						clocks = <&imx219_camera1_clk>;
++						clock-names = "xclk1";
++
++						port {
++							imx219_camera1_out: endpoint {
++								clock-lanes = <0>;
++								data-lanes = <1 2>;
++								link-frequencies = /bits/ 64 <456000000>;
++								remote-endpoint = <&csi20_in>;
++							};
++						};
++					};
++				};
++			};
++		};
++	};
++
++	fragment@1 {
++		target = <&csi20>;
++		__overlay__ {
++			status = "okay";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++
++					csi20_in: endpoint {
++						clock-lanes = <0>;
++						data-lanes = <1 2>;
++						remote-endpoint = <&imx219_camera1_out>;
++					};
++				};
++			};
++		};
++	};
++
++	fragment@2 {
++		target = <&vin4>;
++		__overlay__ {
++			status = "okay";
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
+index abaeb6acc4a3..3e04f31dd722 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
+@@ -31,18 +31,7 @@ i2c4-mux {
+ 		mux-gpios = <&i2c2_gpio 15 GPIO_ACTIVE_LOW>;
+ 		i2c-parent = <&i2c4>;
+ 
+-		i2c@0 {
+-			reg = <0>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-		};
+-
+-		i2c@1 {
+-			reg = <1>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-		};
++		status = "disabled";
+ 	};
+ };
+ 
+@@ -229,6 +218,3 @@ &xhci0 {
+ 
+ 	status = "okay";
+ };
+-
+-#include "ulcb-ccpf-sk-cn12-imx219.dtsi"
+-#include "ulcb-ccpf-sk-cn13-imx219.dtsi"
+-- 
+2.25.1
+

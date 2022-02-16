@@ -1,0 +1,233 @@
+From f468c14aa9adb36a9c3dc08d5e36d2abfe577889 Mon Sep 17 00:00:00 2001
+From: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+Date: Tue, 15 Feb 2022 15:46:13 +0900
+Subject: [PATCH 20/21] arm64: dts: renesas: Add support CSI cameras for
+ CCPF-SK
+
+Add support IMX219 cameras connected to CN12 and CN13.
+
+Signed-off-by: Tomohiro Komagata <tomohiro.komagata.aj@renesas.com>
+---
+ .../dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi | 55 +++++++++++++++
+ .../dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi | 55 +++++++++++++++
+ arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi | 69 +++++++++++++++++++
+ 3 files changed, 179 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi
+
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi
+new file mode 100644
+index 000000000000..ce9ae525febb
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn12-imx219.dtsi
+@@ -0,0 +1,55 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the CCPF-SK (ULCB extension) with IMX219 on camera0
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++/ {
++	imx219_camera_clk: imx219_camera_clk {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24000000>;
++		clock-output-names = "xclk";
++	};
++
++	i2c4-mux {
++		i2c@0 {
++			imx219_camera0: imx219@10 {
++				compatible = "sony,imx219";
++				reg = <0x10>;
++				clocks = <&imx219_camera_clk>;
++				clock-names = "xclk";
++
++				port {
++					imx219_camera0_out: endpoint {
++						clock-lanes = <0>;
++						data-lanes = <1 2>;
++						link-frequencies = /bits/ 64 <456000000>;
++						remote-endpoint = <&csi40_in>;
++					};
++				};
++			};
++		};
++	};
++};
++
++&csi40 {
++	status = "okay";
++
++	ports {
++		port@0 {
++			reg = <0>;
++
++			csi40_in: endpoint {
++				clock-lanes = <0>;
++				data-lanes = <1 2>;
++				remote-endpoint = <&imx219_camera0_out>;
++			};
++		};
++	};
++};
++
++&vin0 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi
+new file mode 100644
+index 000000000000..33d6338d761c
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk-cn13-imx219.dtsi
+@@ -0,0 +1,55 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the CCPF-SK (ULCB extension) with IMX219 on camera1
++ *
++ * Copyright (C) 2022 Renesas Electronics Corp.
++ */
++
++/ {
++	imx219_camera_clk: imx219_camera_clk {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24000000>;
++		clock-output-names = "xclk";
++	};
++
++	i2c4-mux {
++		i2c@1 {
++			imx219_camera1: imx219@10 {
++				compatible = "sony,imx219";
++				reg = <0x10>;
++				clocks = <&imx219_camera_clk>;
++				clock-names = "xclk";
++
++				port {
++					imx219_camera1_out: endpoint {
++						clock-lanes = <0>;
++						data-lanes = <1 2>;
++						link-frequencies = /bits/ 64 <456000000>;
++						remote-endpoint = <&csi20_in>;
++					};
++				};
++			};
++		};
++	};
++};
++
++&csi20 {
++	status = "okay";
++
++	ports {
++		port@0 {
++			reg = <0>;
++
++			csi20_in: endpoint {
++				clock-lanes = <0>;
++				data-lanes = <1 2>;
++				remote-endpoint = <&imx219_camera1_out>;
++			};
++		};
++	};
++};
++
++&vin4 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
+index 7db95110078e..abaeb6acc4a3 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb-ccpf-sk.dtsi
+@@ -23,6 +23,27 @@ s2ram_extint {
+ 		gpios = <&gpio6 21 GPIO_ACTIVE_LOW>;
+ 		status = "okay";
+ 	};
++
++	i2c4-mux {
++		compatible = "i2c-mux-gpio";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		mux-gpios = <&i2c2_gpio 15 GPIO_ACTIVE_LOW>;
++		i2c-parent = <&i2c4>;
++
++		i2c@0 {
++			reg = <0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++		};
++
++		i2c@1 {
++			reg = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++	};
+ };
+ 
+ &can0 {
+@@ -61,6 +82,51 @@ &hsusb {
+ 	status = "okay";
+ };
+ 
++&i2c2 {
++	i2c2_gpio: gpio@75 {
++		compatible = "ti,tca9539";
++		reg = <0x75>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		interrupt-controller;
++		interrupt-parent = <&gpio6>;
++		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
++
++		cam0_io0 {	/* P04 */
++			gpio-hog;
++			gpios = <4 GPIO_ACTIVE_HIGH>;
++			output-high;
++			line-name = "CAM0_IO0";
++		};
++
++		cam0_io1 {	/* P05 */
++			gpio-hog;
++			gpios = <5 GPIO_ACTIVE_HIGH>;
++			output-high;
++			line-name = "CAM0_IO1";
++		};
++
++		cam1_io0 {	/* P06 */
++			gpio-hog;
++			gpios = <6 GPIO_ACTIVE_HIGH>;
++			output-high;
++			line-name = "CAM1_IO0";
++		};
++
++		cam1_io1 {	/* P07 */
++			gpio-hog;
++			gpios = <7 GPIO_ACTIVE_HIGH>;
++			output-high;
++			line-name = "CAM1_IO1";
++		};
++
++		cam0_en {	/* P17 */
++			line-name = "CAM0_EN";
++		};
++	};
++};
++
+ &ohci0 {
+ 	dr_mode = "host";
+ 	status = "okay";
+@@ -163,3 +229,6 @@ &xhci0 {
+ 
+ 	status = "okay";
+ };
++
++#include "ulcb-ccpf-sk-cn12-imx219.dtsi"
++#include "ulcb-ccpf-sk-cn13-imx219.dtsi"
+-- 
+2.25.1
+
