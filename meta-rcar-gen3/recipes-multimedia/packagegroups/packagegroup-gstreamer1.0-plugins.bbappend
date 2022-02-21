@@ -1,4 +1,4 @@
-RDEPENDS_packagegroup-gstreamer1.0-plugins-base = " \
+RDEPENDS_packagegroup-gstreamer1.0-plugins-base_append = " \
     ${@oe.utils.conditional("USE_CSI_CAMERA", "1", \
         "gstreamer1.0-plugins-base-apps", \
     "", d)}"
